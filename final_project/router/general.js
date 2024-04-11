@@ -1,4 +1,5 @@
 const express = require('express');
+// const axios = require('axios').default;
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
@@ -36,10 +37,11 @@ public_users.post("/register", (req,res) => {
 // Task 1., 10.
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-    let getBooks = new Promise((resolve, reject) => {
-        resolve(res.send(JSON.stringify(books)));
-    });
-    getBooks.then(() => console.log(`Resolved promise for getting books (Task 10.)`));
+    async function getBooks() {
+        await res.send(JSON.stringify(books));
+    };
+    getBooks();
+    console.log(`Used async await for getting books (Task 10.)`);
 });
 
 // Task 2., 11.
@@ -62,7 +64,8 @@ public_users.get('/author/:author',function (req, res) {
         for (i in books) {
             if (books[i].author === author) {
                 details = JSON.stringify(books[i]);
-                resolve(res.send(details));
+                resolve(res.send(`Book details for author ${author}: ${details}`));
+                // resolve(res.send(details));
             }
         }
     });
@@ -78,7 +81,8 @@ public_users.get('/title/:title',function (req, res) {
         for (i in books) {
             if (books[i].title === title) {
                 details = JSON.stringify(books[i]);
-                resolve(res.send(details));
+                resolve(res.send(`Book details for title ${title}: ${details}`));
+                // resolve(res.send(details));
             }
         }
     });
