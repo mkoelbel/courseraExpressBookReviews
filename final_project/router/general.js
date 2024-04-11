@@ -20,9 +20,6 @@ public_users.post("/register", (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    // console.log(`type of reviews_to_update: ${typeof(books)}`);
-    // console.log(`length of reviews: ${Object.keys(books).length}`);
-
     if (username && password) {
         if (!userExists(username)) {
         users.push({ username: username, password: password });
