@@ -7,15 +7,12 @@ const public_users = express.Router();
 // Does username exist in our records? (Has a user registered with this username?)
 // Returns boolean
 const userExists = (username) => {
-    if (users.length > 0) {
-        for (i in users) {
-            if (users[i]["username"] === username) {
-                return true; // found this username in users
-            }
+    for (i in users) {
+        if (users[i]["username"] === username) {
+            return true; // found this username in users list
         }
-        return false; // did not find this username in users
     }
-    return false; // users is empty, so username def doesn't exist already
+    return false; // did NOT find this username in users list
 };
 
 // Task 6.

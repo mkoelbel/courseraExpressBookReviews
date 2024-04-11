@@ -5,19 +5,15 @@ const regd_users = express.Router();
 
 let users = [];
 
-const isValid = (username) => { //returns boolean
-//write code to check is the username is valid
-};
-
 // Does username and password exist in our records? (Has a user registered with this username and password?)
 // Returns boolean
 const authenticatedUser = (username,password) => {
     for (i in users) {
         if (users[i].username === username && users[i].password === password) {
-            return true;
+            return true; // found this username and password pair in users list
         }
     }
-    return false;
+    return false; // did NOT find this username and password pair in users list
 };
 
 // Task 7.
@@ -95,5 +91,4 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
 });
 
 module.exports.authenticated = regd_users;
-module.exports.isValid = isValid;
 module.exports.users = users;
