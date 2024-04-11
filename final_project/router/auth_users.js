@@ -47,24 +47,25 @@ regd_users.post("/login", (req,res) => {
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
     const isbn = req.params.isbn;
-    const submitted_review = req.params.review;
-    const reviews_to_update = books[isbn]["reviews"];
+    const submitted_review = req.query.review;
+    const reviews_to_update = books[isbn].reviews;
     const user = req.session.authorization["username"];
 
-    // const review_to_add = {
-    //     "username": user,
-    //     "review": submitted_review
-    // };
+    // loop through reviews for the given ISBN. 
+    // if there is an existing review for this user, delete it.
+    for (const username in reviews_to_update) {
+        if (username === user) {
+            delete reviews_to_update[username];
+            break;
+        }
+    }
+    // add review for this user
+    reviews_to_update[user] = submitted_review;
 
-    // for (i in reviews_to_update) {
-    //     if (i["username"] === user) {
-    //         i["review"] = submitted_review;
-    //         res.send(`Updated your review for ISBN ${isbn}`)
-    //         return;
-    //     }
-    // }
-    // reviews_to_update = [...reviews_to_update, review_to_add];
-    res.send(`Added a review for ISBN ${isbn}`)
+    // update books object with the new reviews for the given ISBN
+    books[isbn].reviews = reviews_to_update;
+    
+    res.status(200).json({message: `Reviews for ISBN ${isbn}: ${JSON.stringify(books[isbn].reviews)}`});
 });
 
 module.exports.authenticated = regd_users;
