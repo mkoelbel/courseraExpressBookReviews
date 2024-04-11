@@ -33,44 +33,56 @@ public_users.post("/register", (req,res) => {
     }
 });
 
-// Task 1.
+// Task 1., 10.
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-    res.send(JSON.stringify(books));
+    let getBooks = new Promise((resolve, reject) => {
+        resolve(res.send(JSON.stringify(books)));
+    });
+    getBooks.then(() => console.log(`Resolved promise for getting books (Task 10.)`));
 });
 
-// Task 2.
+// Task 2., 11.
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-    const isbn = req.params.isbn;
-    const details = JSON.stringify(books[isbn]);
-    res.send(`Book details for ISBN ${isbn}: ${details}`);
+    let getBookDetails = new Promise((resolve, reject) => {
+        const isbn = req.params.isbn;
+        const details = JSON.stringify(books[isbn]);
+        resolve(res.send(`Book details for ISBN ${isbn}: ${details}`));
+    });
+    getBookDetails.then(() => console.log(`Resolved promise for getting book details (Task 11.)`));
  });
 
-// Task 3.
+// Task 3., 12.
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-    const author = req.params.author;
-    var details;
-    for (i in books) {
-        if (books[i].author === author) {
-            details = JSON.stringify(books[i]);
-            res.send(details);
+    let getBookDetails = new Promise((resolve, reject) => {
+        const author = req.params.author;
+        var details;
+        for (i in books) {
+            if (books[i].author === author) {
+                details = JSON.stringify(books[i]);
+                resolve(res.send(details));
+            }
         }
-    }
+    });
+    getBookDetails.then(() => console.log(`Resolved promise for getting book details (Task 12.)`));
 });
 
-// Task 4.
+// Task 4., 13.
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-    const title = req.params.title;
-    var details;
-    for (i in books) {
-        if (books[i].title === title) {
-            details = JSON.stringify(books[i]);
-            res.send(details);
+    let getBookDetails = new Promise((resolve, reject) => {
+        const title = req.params.title;
+        var details;
+        for (i in books) {
+            if (books[i].title === title) {
+                details = JSON.stringify(books[i]);
+                resolve(res.send(details));
+            }
         }
-    }
+    });
+    getBookDetails.then(() => console.log(`Resolved promise for getting book details (Task 13.)`));
 });
 
 // Task 5.
