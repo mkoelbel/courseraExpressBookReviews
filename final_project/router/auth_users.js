@@ -68,6 +68,27 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     res.status(200).json({message: `Reviews for ISBN ${isbn}: ${JSON.stringify(books[isbn].reviews)}`});
 });
 
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    const isbn = req.params.isbn;
+    const reviews_to_update = books[isbn].reviews;
+    const user = req.session.authorization["username"];
+
+    // loop through reviews for the given ISBN. 
+    // if there is an existing review for this user, delete it.
+    for (const username in reviews_to_update) {
+        if (username === user) {
+            delete reviews_to_update[username];
+            break;
+        }
+    }
+
+    // update books object with the new reviews for the given ISBN
+    books[isbn].reviews = reviews_to_update;
+    
+    res.status(200).json({message: `User ${user} deleted their review for ISBN ${isbn}. Updated reviews: ${JSON.stringify(books[isbn].reviews)}`});
+});
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
