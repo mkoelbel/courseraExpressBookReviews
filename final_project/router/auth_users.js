@@ -9,7 +9,9 @@ const isValid = (username) => { //returns boolean
 //write code to check is the username is valid
 };
 
-const authenticatedUser = (username,password) => { //returns boolean
+// Does username and password exist in our records? (Has a user registered with this username and password?)
+// Returns boolean
+const authenticatedUser = (username,password) => {
     for (i in users) {
         if (users[i].username === username && users[i].password === password) {
             return true;
@@ -18,7 +20,8 @@ const authenticatedUser = (username,password) => { //returns boolean
     return false;
 };
 
-//only registered users can login
+// Task 7.
+// Log in a user (only registered users can login)
 regd_users.post("/login", (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -44,7 +47,8 @@ regd_users.post("/login", (req,res) => {
     }
 });
 
-// Add a book review
+// Task 8.
+// Add or modify a book review. (Can only modify your own review.)
 regd_users.put("/auth/review/:isbn", (req, res) => {
     const isbn = req.params.isbn;
     const submitted_review = req.query.review;
@@ -68,7 +72,8 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     res.status(200).json({message: `Reviews for ISBN ${isbn}: ${JSON.stringify(books[isbn].reviews)}`});
 });
 
-// Delete a book review
+// Task 9. 
+// Delete a book review. (Can only delete your own review.)
 regd_users.delete("/auth/review/:isbn", (req, res) => {
     const isbn = req.params.isbn;
     const reviews_to_update = books[isbn].reviews;
